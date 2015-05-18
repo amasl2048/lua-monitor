@@ -44,7 +44,7 @@ get_url(conf.city)
 
 --- parse xml
 function get(data, name, par)
-    temp = data:match("<yweather:"..name.."(.-)/>")
+    local temp = data:match("<yweather:"..name.."(.-)/>")
     return temp:match(par.."=\"(.-)\"")
 end
 
