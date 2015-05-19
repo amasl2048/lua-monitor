@@ -77,7 +77,7 @@ info.in_bytes  = C:match("RX bytes:(.-) ")
 info.out_bytes = C:match("TX bytes:(.-) ")
 
 function round2mb(c)
-   return round( c / 1000. / 1000., 2 )
+   return round( c / 1000. / 1000., 1 )
 end
 
 diff.in_bytes  = info.in_bytes  - conf.in_bytes 
@@ -89,14 +89,11 @@ info.month_in  = conf.month_in  + diff.in_bytes
 info.month_out = conf.month_out + diff.out_bytes
 
 ---local rep = report(diff, data)
-local rep = "day_in: "..round2mb(diff.in_bytes).."Mb \t"
-		  .."day_out: "..round2mb(diff.out_bytes).."Mb\n"
-rep = rep.."week_in: "..round2mb(info.week_in).."Mb \t"
-		 .."week_out: "..round2mb(info.week_out).."Mb\n"
-rep = rep.."month_in: "..round2mb(info.month_in).."Mb \t"
-		 .."moutn_out: "..round2mb(info.month_out).."Mb\n"
-rep = rep.."total_in: "..round2mb(info.in_bytes).."Mb \t"
-		 .."total_out: "..round2mb(info.out_bytes).."Mb\n"
+local rep = "in/out Mb \n"..
+		   "daily:   "..round2mb(diff.in_bytes).."/"..round2mb(diff.out_bytes).."\n"
+rep = rep.."weekly:  "..round2mb(info.week_in).."/"..round2mb(info.week_out).."\n"
+rep = rep.."monthly: "..round2mb(info.month_in).."/"..round2mb(info.month_out).."\n"
+rep = rep.."totaly:  "..round2mb(info.in_bytes).."/"..round2mb(info.out_bytes).."\n"
 rep = rep..diff["uptime"]
 ---print(rep)
 
@@ -119,4 +116,4 @@ save_info(dat_file, info, data)
 ---
 dofile("send2email.lua")
 ---rep = ""
-if (rep ~= "") then sendMessage("test", rep) end
+if (rep ~= "") then sendMessage("net1", rep) end
