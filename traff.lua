@@ -138,7 +138,7 @@ if (week == "0") then
    info.week_out = 0
 end
 
-if (day == "1") then
+if (day == "01") then
    info.month_in  = 0
    info.month_out = 0
 end
