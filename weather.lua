@@ -1,6 +1,8 @@
 #!/usr/bin/env lua
 --[[
   Weather report bot
+  !!! This Yahoo API does not work any more !!!
+      http://weather.yahooapis.com/forecastrss?w=
 --]]
 
 function get_data(data, name)
@@ -13,7 +15,7 @@ config = {"city", "weather_file"}
 
 --- read config
 do
-   local f = assert(io.open("/etc/weather.conf", "r"))
+   local f = assert(io.open("./weather.conf", "r"))
    local c = f:read("*all")
    f:close()
    conf = {}
@@ -33,6 +35,7 @@ function get_url(city)
    place["barselona"] = "753692"
    local url = "'http://weather.yahooapis.com/forecastrss?w="..place[city].."&u=c\'" 
    local cmd = "curl -s "..url
+   print(cmd)
    -- out = os.execute(cmd)
    -- print(out)
    local f=io.popen(cmd)
@@ -41,6 +44,7 @@ function get_url(city)
 end
 
 get_url(conf.city)
+print(C)
 
 --- parse xml
 function get(data, name, par)
@@ -176,6 +180,7 @@ cond("text", "Shower")
 
 --- print report for logger
 --print(rep, "#", os.date(), "\n---\n")
+
 --if (rep ~= "") then save_weather(rep, "report.txt") end
 if (rep ~= "") then
   print(rep)
@@ -244,5 +249,5 @@ function sendMessage(subject, body)
     end
 end
 
-if (rep ~= "") then sendMessage(conf.city.." "..weather.date, rep) end
+---if (rep ~= "") then sendMessage(conf.city.." "..weather.date, rep) end
 
